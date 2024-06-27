@@ -17,22 +17,26 @@
 | import './routes/customer''
 |
 */
-
 import Route from "@ioc:Adonis/Core/Route";
+
+Route.where("id", Route.matchers.number());
+// Route.where("id", {
+//   match: /^[0-9]+$/,
+//   cast: (id) => Number(id),
+// });
+
+Route.get("/img/:userId/*", async ({ params }) => {
+  return params;
+});
 
 Route.get("/", async (ctx) => {
   return ctx.view.render("welcome");
 });
 
-Route.get("/test", async () => {
-  return "Working";
-});
+Route.get("/posts/topics/:topic?", async (ctx) => {
+  return `Topic: ${ctx.params.topic}`;
+}).where("topic", Route.matchers.slug());
 
-Route.get("/posts", () => {});
-Route.get("/posts/1", () => {});
-Route.post("/posts", () => {});
-Route.put("/posts/1", () => {});
-Route.delete("/posts/1", () => {});
-
-Route.on("/testing").redirect("/test");
-Route.on("/googleIt").redirectToPath("https://google.com");
+require("./routes/api");
+// Route.on("/testing").redirect("/test");
+// Route.on("/googleIt").redirectToPath("https://google.com");
