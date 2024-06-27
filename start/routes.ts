@@ -18,8 +18,21 @@
 |
 */
 
-import Route from '@ioc:Adonis/Core/Route'
+import Route from "@ioc:Adonis/Core/Route";
 
-Route.get('/', async ({ view }) => {
-  return view.render('welcome')
-})
+Route.get("/", async (ctx) => {
+  return ctx.view.render("welcome");
+});
+
+Route.get("/test", async () => {
+  return "Working";
+});
+
+Route.get("/posts", () => {});
+Route.get("/posts/1", () => {});
+Route.post("/posts", () => {});
+Route.put("/posts/1", () => {});
+Route.delete("/posts/1", () => {});
+
+Route.on("/testing").redirect("/test");
+Route.on("/googleIt").redirectToPath("https://google.com");
