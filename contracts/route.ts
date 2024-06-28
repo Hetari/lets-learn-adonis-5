@@ -10,11 +10,12 @@ declare module "@ioc:Adonis/Core/Route" {
   interface RouteResourceContract {
     mustBeSigned(): this;
   }
-}
 
-// interface BriskRouteContract {
-//   goHome(): this;
-// }
-// interface RouteMatchersContract {
-//   alphaString(): { match: RegExp };
-// }
+  interface BriskRouteContract {
+    goHome(): this;
+  }
+
+  interface RouteMatchersContract {
+    alphaString(): { match: RegExp };
+  }
+}

@@ -72,6 +72,13 @@ Route.get("/posts/topics/:topic?", async (ctx) => {
   return `Topic: ${ctx.params.topic}`;
 }).where("topic", Route.matchers.slug());
 
+Route.on("/testing").goHome();
+
+Route.get("test/:testing", () => "cool").where(
+  "testing",
+  Route.matchers.alphaString()
+);
+
 require("./routes/api");
 // Route.on("/testing").redirect("/test");
 // Route.on("/googleIt").redirectToPath("https://google.com");
