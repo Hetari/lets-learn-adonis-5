@@ -29,9 +29,44 @@ Route.get("/img/:userId/*", async ({ params }) => {
   return params;
 });
 
-Route.get("/", async (ctx) => {
-  return ctx.view.render("welcome");
+Route.get("/", async () => {
+  // Generate a URL for the "api.v1.posts.show" route with the parameter "id" set to 1.
+  const postUrl = Route.makeUrl("api.v1.posts.show", [1], {
+    prefixUrl: "http://localhost:3333",
+  });
+
+  // Generate a URL for the "api.v1.posts.show" route using a fluent API.
+  const postUrlBuilder = Route.builder()
+    .prefixUrl("http://localhost:3333") // Specify the base URL for the route.
+    .params({ id: 1 }) // Set the parameter "id" to 1.
+    .make("api.v1.posts.show"); // Generate the URL.
+
+  // Generate a signed URL for the "/test-signature" route with the parameter "email" set to "foo@bar.com".
+  // The `expiresIn` option specifies the expiration time of the signed URL.
+  const postUrlSigned = Route.makeSignedUrl(
+    "/test-signature",
+    {
+      email: "foo@bar.com",
+    },
+    {
+      expiresIn: "10s",
+      prefixUrl: "http://localhost:3333",
+    }
+  );
+
+  // Generate a signed URL for the "/test-signature" route using a fluent API.
+  const postUrlBuilderSigned = Route.builder()
+    .prefixUrl("http://localhost:3333") // Specify the base URL for the route.
+    .params({ email: "foo@bar.com" }) // Set the parameter "email" to "foo@bar.com".
+    .makeSigned("/test-signature", { expiresIn: "10s" }); // Generate the signed URL.
+
+  // Return the generated URLs as a response.
+  return { postUrl, postUrlBuilder, postUrlSigned, postUrlBuilderSigned };
 });
+
+Route.get("/test-signature", async () => {
+  return true;
+}).mustBeSigned();
 
 Route.get("/posts/topics/:topic?", async (ctx) => {
   return `Topic: ${ctx.params.topic}`;

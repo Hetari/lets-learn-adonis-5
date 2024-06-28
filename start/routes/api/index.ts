@@ -6,8 +6,8 @@ Route.group(() => {
   Route.group(() => {
 
     postRoutes();
-    require("./v2/series");
+    require("./v1/series");
 
-  }).prefix("/v2").as("v2");
+  }).prefix("/v1").as("v1");
 
 }).prefix("/api").as("api");
